@@ -19,7 +19,7 @@ var testA = function (loc) {
                 var lat = document.querySelector("#lat");
                 var lon = document.querySelector("#lon");
 
-                         //parst te info of data
+                //parst te info of data
                 var unixDt = data.dt;
                 var dt = new Date(unixDt * 1000).toLocaleString();
 
@@ -52,7 +52,10 @@ var testB = function () {
 
     var lat = document.querySelector("#lat");
     var lon = document.querySelector("#lon");
-    var loc = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat.textContent + "&lon=" + lon.textContent + "&appid=159cf61f058039de880f7db60a1b8540";
+    
+    var loc = "https://api.openweathermap.org/data/2.5/onecall?lat=" + 
+    lat.textContent + "&lon=" + lon.textContent + "&appid=159cf61f058039de880f7db60a1b8540&units=imperial";
+
     console.log(loc);
     // make a get request to url
     fetch(loc).then(function (response) {
@@ -69,37 +72,22 @@ var testB = function () {
 
                 t.textContent =
                     "Loc: " + data.timezone + " " + dt + "\r\n" +
-                    "Lon: " + data.lon + "\r\n" +
                     "Lat: " + data.lat + "\r\n" +
+                    "Lon: " + data.lon + "\r\n" +
                     "Temp: " + data.current.temp + "\r\n" +
                     "Wind: " + data.current.wind_speed + " MPH" + "\r\n" +
                     "Humidity: " + data.current.humidity + "\r\n" +
                     "UV Index: " + data.current.uvi
                     ;
 
-                    var txtWTest1 = document.querySelector("#txtWTest1");
-                    var txtWTest2 = document.querySelector("#txtWTest2");
-                    var txtWTest3 = document.querySelector("#txtWTest3");
-                    var txtWTest4 = document.querySelector("#txtWTest4");
-                    var txtWTest5 = document.querySelector("#txtWTest5");
-                    var txtWTest6 = document.querySelector("#txtWTest6");
-                    var txtWTest7 = document.querySelector("#txtWTest7");
-                    var txtWTest8 = document.querySelector("#txtWTest8");
+                debugger
+                var futureDays = getAllTagMatches(/^da/i);
 
-                    txtWTest1.textContent = data.daily[0].dt;
-                    txtWTest2.textContent = data.daily[1].dt;
-                    txtWTest3.textContent = data.daily[2].dt;
-                    txtWTest4.textContent = data.daily[3].dt;
-                    txtWTest5.textContent = data.daily[4].dt;
-                    txtWTest6.textContent = data.daily[5].dt;
-                    txtWTest7.textContent = data.daily[6].dt;
-                    txtWTest8.textContent = data.daily[7].dt;
-
-                    // for (var i = 0; i < data.daily.length; i++){
-
-                    //     txtWTest1.textContent = txtWTest1.dt;
-                    // }
-               
+                for (var i = 0; i < futureDays.length; i++) {                
+                        futureDays[i].textContent = unixToLocal(data.daily[i].dt) + "\r\n" +
+                        "more info"
+                        ;
+                }
 
             });
         } else {
@@ -110,6 +98,18 @@ var testB = function () {
     });
 };
 
+// get all the future forcast data
+function getAllTagMatches(regEx) {
+    return Array.prototype.slice.call(document.querySelectorAll('*')).filter(function (el) {
+        return el.id.match(regEx);
+    });
+};
 
-var locA = "https://api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=159cf61f058039de880f7db60a1b8540";
+// unix dateTime to local
+function unixToLocal(stamp) {
+    var ret = new Date(stamp * 1000).toLocaleString();
+    return ret;
+};
+
+var locA = "https://api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=159cf61f058039de880f7db60a1b8540&units=imperial";
 testA(locA);
