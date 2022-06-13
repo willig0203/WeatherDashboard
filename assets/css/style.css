@@ -1,0 +1,8 @@
+img {  
+    float: left; 
+    margin-right: 10px; 
+  } 
+  div { 
+    float: left; 
+    width: calc(100% - 350px - 10px); 
+  } 

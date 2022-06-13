@@ -20,8 +20,7 @@ var testA = function (loc) {
                 var lon = document.querySelector("#lon");
 
                 //parst te info of data
-                var unixDt = data.dt;
-                var dt = new Date(unixDt * 1000).toLocaleString();
+                var dt = unixToLocal(data.dt);
 
                 t.textContent =
                     "Loc: " + data.name + " " + dt + "\r\n" +
@@ -67,8 +66,7 @@ var testB = function () {
                 console.log(data);
                 var t = document.querySelector("#txtWTestB");
 
-                var unixDt = data.current.dt;
-                var dt = new Date(unixDt * 1000).toLocaleString();
+                var dt = unixToLocal(data.current.dt);
 
                 t.textContent =
                     "Loc: " + data.timezone + " " + dt + "\r\n" +
@@ -83,9 +81,12 @@ var testB = function () {
                 debugger
                 var futureDays = getAllTagMatches(/^da/i);
 
-                for (var i = 0; i < futureDays.length; i++) {                
-                        futureDays[i].textContent = unixToLocal(data.daily[i].dt) + "\r\n" +
-                        "more info"
+                for (var i = 0; i < 5; i++) {                
+                        futureDays[i].textContent =
+                        unixToLocal(data.daily[i].dt) + "\r\n" +
+                        "Temp: " + data.daily[i].temp.day + "\r\n" +
+                        "Wind: " + data.daily[i].wind_speed + "\r\n" +
+                        "Humidity: " + data.daily[i].humidity
                         ;
                 }
 
@@ -93,7 +94,7 @@ var testB = function () {
         } else {
             // if not successful, redirect to homepage
             // document.location.replace("./index.html");
-            console.log("not Succ B");
+            console.log("not successful B");
         }
     });
 };
