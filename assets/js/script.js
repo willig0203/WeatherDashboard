@@ -37,7 +37,6 @@ var formSubmitHandler = function (event) {
 
         getByCity(locA);
 
-        // loadCities();
         cityInputEl.value = "";
     } else {
         modal.style.display = "block";
@@ -60,7 +59,7 @@ var getByCity = function (loc) {
                 //display data
                 debugger
                 console.log(data);
-                var t = document.querySelector("#txtWTestA");
+                var t = document.querySelector("#cityReport");
 
                 var lat = document.querySelector("#lat");
                 var lon = document.querySelector("#lon");
@@ -68,7 +67,7 @@ var getByCity = function (loc) {
                 //parst te info of data
                 var dt = unixToLocal(data.dt);
 
-                t.textContent =
+                t.innerHTML =
                     "Loc: " + data.name + " " + dt + "\r\n" +
                     "Temp: " + data.main.temp + "\r\n" +
                     "Wind: " + data.wind.speed + " MPH" + "\r\n" +
@@ -110,11 +109,11 @@ var getByCoords = function () {
                 debugger
                 console.log(data);
 
-                var t = document.querySelector("#txtWTestB");
+                var t = document.querySelector("#coordReport");
 
                 var dt = unixToLocal(data.current.dt);
 
-                t.textContent =
+                t.innerHTML =
                     "Loc: " + data.timezone + " " + dt + "\r\n" +
                     "Lat: " + data.lat + "\r\n" +
                     "Lon: " + data.lon + "\r\n" +

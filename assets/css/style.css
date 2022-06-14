@@ -13,6 +13,9 @@
   font-size: 30px;
 }
 
+.hidden{
+  display: none;
+}
 
 /* The Modal (background) */
 .modal {
