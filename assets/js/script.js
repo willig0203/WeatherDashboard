@@ -2,7 +2,7 @@
 
 var searchFormEl = document.querySelector("#search-form");
 var cityInputEl = document.querySelector("#city");
-
+var cityBottonsEl = document.querySelector("#cityButtons");
 
 // Get the modal
 var modal = document.getElementById("searchErrorModal");
@@ -16,26 +16,34 @@ span.onclick = function () {
 };
 
 // When the user clicks anywhere outside of the modal, close it
-window.onclick = function (event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-};
+// window.onclick = function (event) {
+//     if (event.target == modal) {
+//         modal.style.display = "none";
+//     }
+// };
 // End of the modal
 
 
 // city search form
 var formSubmitHandler = function (event) {
-    event.preventDefault();
+
+    if (event) {
+        event.preventDefault();
+    };
 
     var citySearch = cityInputEl.value.trim();
 
     if (citySearch) {
-        saveCities(citySearch);
-
         var locA = "https://api.openweathermap.org/data/2.5/weather?q=" + citySearch + "&APPID=159cf61f058039de880f7db60a1b8540&units=imperial";
 
-        getByCity(locA);
+        if (getByCity(locA)) {
+            saveCities(citySearch);
+            removeCityBtns();
+            createCityBtns();
+        }
+        // else {
+        //     modal.style.display = "block";
+        // };
 
         cityInputEl.value = "";
     } else {
@@ -45,7 +53,31 @@ var formSubmitHandler = function (event) {
     console.log(event);
 };
 
+// click button to search
+var btnSearch = function (event) {
+    // debugger
+    console.log(event);
+    cityInputEl.value = event.innerHTML;
+    formSubmitHandler();
+};
 
+var createCityBtns = function () {
+    for (var i = 0; i < citiesArry.length; i++) {
+        let btn = document.createElement("button");
+        btn.setAttribute("id", "cityBtn");
+        btn.setAttribute("onclick", "btnSearch(this)");
+        btn.textContent = citiesArry[i];
+        cityBottonsEl.appendChild(btn);
+    }
+};
+
+var removeCityBtns = function () {
+    // debugger
+    var btns = getAllTagMatches(/^cityBtn/i);
+    for (var b = 0; b < btns.length; b++) {
+        btns[b].remove();
+    }
+};
 
 var getByCity = function (loc) {
 
@@ -57,14 +89,14 @@ var getByCity = function (loc) {
         if (response.ok) {
             response.json().then(function (data) {
                 //display data
-                debugger
+                // debugger
                 console.log(data);
                 var t = document.querySelector("#cityReport");
 
                 var lat = document.querySelector("#lat");
                 var lon = document.querySelector("#lon");
 
-                //parst te info of data
+                //parst the info of data
                 var dt = unixToLocal(data.dt);
 
                 t.innerHTML =
@@ -77,15 +109,14 @@ var getByCity = function (loc) {
 
                 lat.textContent = data.coord.lat;
                 lon.textContent = data.coord.lon;
-
-                icon = data.weather[0].icon;
-                console.log(icon);
-
+                getByCoords();
+                return true;
             });
         } else {
             // if not successful, redirect to homepage
             // document.location.replace("./index.html");
             console.log("not Succ A");
+            return false;
         }
     });
 
@@ -106,7 +137,7 @@ var getByCoords = function () {
         if (response.ok) {
             response.json().then(function (data) {
                 //display data
-                debugger
+                // debugger
                 console.log(data);
 
                 var t = document.querySelector("#coordReport");
@@ -123,7 +154,7 @@ var getByCoords = function () {
                     "UV Index: " + data.current.uvi
                     ;
 
-                debugger
+                // debugger
                 // var futureDays = getAllTagMatches(/^da/i);
 
                 for (var i = 0; i < 5; i++) {
@@ -184,16 +215,16 @@ var citiesArry = [];
 var citiesItem = {};
 
 var loadCities = function () {
-    debugger
+    // debugger
     citiesArry = JSON.parse(localStorage.getItem("citiesList"));
 
     if (!citiesArry) {
         return;
     }
-    // else {
-    // make buttons
-    // };
-
+    else {
+        // make buttons
+        createCityBtns();
+    };
 };
 
 // does not check if city is valid city and country
@@ -221,6 +252,7 @@ var pushCity = function (city) {
     console.log(citiesArry);
 };
 
+removeCityBtns();
 loadCities();
 
 searchFormEl.addEventListener("submit", formSubmitHandler);
