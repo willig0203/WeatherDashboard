@@ -3,6 +3,8 @@
 var searchFormEl = document.querySelector("#search-form");
 var cityInputEl = document.querySelector("#city");
 var cityBottonsEl = document.querySelector("#cityButtons");
+var cityReportEl = document.querySelector("#cityReport");
+var fiveDayEl = document.querySelector("#fiveDay");
 
 // Get the modal
 var modal = document.getElementById("searchErrorModal");
@@ -66,6 +68,7 @@ var createCityBtns = function () {
         let btn = document.createElement("button");
         btn.setAttribute("id", "cityBtn");
         btn.setAttribute("onclick", "btnSearch(this)");
+        btn.style.fontSize ="10px";
         btn.textContent = citiesArry[i];
         cityBottonsEl.appendChild(btn);
     }
@@ -100,11 +103,10 @@ var getByCity = function (loc) {
                 var dt = unixToLocal(data.dt);
 
                 t.innerHTML =
-                    "Loc: " + data.name + " " + dt + "\r\n" +
+                    data.name + " " + dt + "\r\n" +
                     "Temp: " + data.main.temp + "\r\n" +
                     "Wind: " + data.wind.speed + " MPH" + "\r\n" +
-                    "Humidity: " + data.main.humidity + "\r\n" +
-                    "UV Index: " + "??"
+                    "Humidity: " + data.main.humidity + "\r\n" 
                     ;
 
                 lat.textContent = data.coord.lat;
@@ -145,44 +147,56 @@ var getByCoords = function () {
                 var dt = unixToLocal(data.current.dt);
 
                 t.innerHTML =
-                    "Loc: " + data.timezone + " " + dt + "\r\n" +
-                    "Lat: " + data.lat + "\r\n" +
-                    "Lon: " + data.lon + "\r\n" +
-                    "Temp: " + data.current.temp + "\r\n" +
-                    "Wind: " + data.current.wind_speed + " MPH" + "\r\n" +
-                    "Humidity: " + data.current.humidity + "\r\n" +
+                    // "Loc: " + data.timezone + " " + dt + "\r\n" +
+                
+                    // "Temp: " + data.current.temp + "\r\n" +
+                    // "Wind: " + data.current.wind_speed + " MPH" + "\r\n" +
+                    // "Humidity: " + data.current.humidity + "\r\n" +
                     "UV Index: " + data.current.uvi
                     ;
 
-                // debugger
-                // var futureDays = getAllTagMatches(/^da/i);
+              
+// debugger
+                var matches = getAllTagMatches(/^day/i);
+                for (var i = 0; i < matches.length; i++) {
+                    matches[i].remove();
+                } 
 
-                for (var i = 0; i < 5; i++) {
+                for (var i = 0; i < 5; i++) {       
 
-
-                    let fiveDayEl = document.createElement("div");
-                    fiveDayEl.setAttribute("id", 'day' + i);
-                    fiveDayEl.classList.add("flex-container");
-
-                    let dateTxtEl = document.createElement("p");
+                    // let fiveDayEl = document.createElement("div");
+                    // fiveDayEl.setAttribute("id", 'day');
+                    // fiveDayEl.classList.add("eachDay");
+                     
+                    let dateTxtEl = document.createElement("label");
+                    dateTxtEl.classList.add("daily");
+                    dateTxtEl.setAttribute("id", 'day');                    
                     dateTxtEl.innerHTML = unixToLocal(data.daily[i].dt);
                     fiveDayEl.appendChild(dateTxtEl);
 
                     let imageEl = document.createElement("img");
+                    imageEl.classList.add("daily");
+                    imageEl.setAttribute("id", 'day');
                     imageEl.setAttribute("src", "http://openweathermap.org/img/wn/"
-                        + data.daily[i].weather[0].icon + ".png");
+                        + data.daily[i].weather[0].icon + ".png");                
                     fiveDayEl.appendChild(imageEl);
 
-                    let tempTxtEl = document.createElement("p");
-                    tempTxtEl.innerHTML = "Temp: " + data.daily[i].temp.day;
+                    let tempTxtEl = document.createElement("label");
+                    tempTxtEl.classList.add("daily");
+                    tempTxtEl.setAttribute("id", 'day');
+                    tempTxtEl.innerHTML = " Temp: " + data.daily[i].temp.day;
                     fiveDayEl.appendChild(tempTxtEl);
 
-                    let windTxtEl = document.createElement("p");
-                    windTxtEl.innerHTML = "Wind: " + data.daily[i].wind_speed;
+                    let windTxtEl = document.createElement("label");
+                    windTxtEl.classList.add("daily");   
+                    windTxtEl.setAttribute("id", 'day');
+                    windTxtEl.innerHTML = " Wind: " + data.daily[i].wind_speed;
                     fiveDayEl.appendChild(windTxtEl);
 
-                    let humidityTxtEl = document.createElement("p");
-                    humidityTxtEl.innerHTML = "Humidity: " + data.daily[i].humidity;
+                    let humidityTxtEl = document.createElement("label");
+                    humidityTxtEl.classList.add("daily");
+                    humidityTxtEl.setAttribute("id", 'day');
+                    humidityTxtEl.innerHTML = " Humidity: " + data.daily[i].humidity;
                     fiveDayEl.appendChild(humidityTxtEl);
 
                     document.body.appendChild(fiveDayEl);
@@ -207,7 +221,7 @@ function getAllTagMatches(regEx) {
 
 // unix dateTime to local
 function unixToLocal(stamp) {
-    var ret = new Date(stamp * 1000).toLocaleString();
+    var ret = new Date(stamp * 1000).toLocaleDateString("en-US");
     return ret;
 };
 
