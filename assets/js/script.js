@@ -31,18 +31,24 @@ var formSubmitHandler = function (event) {
     var citySearch = cityInputEl.value.trim();
 
     if (citySearch) {
+        saveCities(citySearch);
+
         var locA = "https://api.openweathermap.org/data/2.5/weather?q=" + citySearch + "&APPID=159cf61f058039de880f7db60a1b8540&units=imperial";
-        testA(locA);
+
+        getByCity(locA);
+
+        // loadCities();
         cityInputEl.value = "";
     } else {
         modal.style.display = "block";
     }
+
     console.log(event);
 };
 
 
 
-var testA = function (loc) {
+var getByCity = function (loc) {
 
     console.log(loc);
 
@@ -87,13 +93,12 @@ var testA = function (loc) {
 };
 
 
-var testB = function () {
+var getByCoords = function () {
 
     var lat = document.querySelector("#lat");
     var lon = document.querySelector("#lon");
 
-    var loc = "https://api.openweathermap.org/data/2.5/onecall?lat=" +
-        lat.textContent + "&lon=" + lon.textContent + "&appid=159cf61f058039de880f7db60a1b8540&units=imperial";
+    var loc = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat.textContent + "&lon=" + lon.textContent + "&appid=159cf61f058039de880f7db60a1b8540&units=imperial";
 
     console.log(loc);
     // make a get request to url
@@ -104,8 +109,6 @@ var testB = function () {
                 //display data
                 debugger
                 console.log(data);
-
-
 
                 var t = document.querySelector("#txtWTestB");
 
@@ -178,8 +181,48 @@ function unixToLocal(stamp) {
     return ret;
 };
 
+var citiesArry = [];
+var citiesItem = {};
+
+var loadCities = function () {
+    debugger
+    citiesArry = JSON.parse(localStorage.getItem("citiesList"));
+
+    if (!citiesArry) {
+        return;
+    }
+    // else {
+    // make buttons
+    // };
+
+};
+
+// does not check if city is valid city and country
+var saveCities = function (city) {
+    // debugger
+    if (citiesArry) {
+        if (citiesArry.includes(city)) {
+            console.log("city already exists " + city);
+            return;
+        } else {
+            pushCity(city);
+        }
+    }
+    else {
+        citiesArry = new Array(0);
+        pushCity(city);
+    }
+};
+
+var pushCity = function (city) {
+    console.log(city);
+    citiesArry.push(city);
+
+    localStorage.setItem("citiesList", JSON.stringify(citiesArry));
+    console.log(citiesArry);
+};
+
+loadCities();
+
 searchFormEl.addEventListener("submit", formSubmitHandler);
 
-
-// var locA = "https://api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=159cf61f058039de880f7db60a1b8540&units=imperial";
-// testA(locA);
