@@ -1,6 +1,46 @@
 //"https://api.openweathermap.org/data/2.5/onecall?lat=33.44&lon=-94.04&exclude=hourly,daily&appid={159cf61f058039de880f7db60a1b8540}";
 
-var icon;
+var searchFormEl = document.querySelector("#search-form");
+var cityInputEl = document.querySelector("#city");
+
+
+// Get the modal
+var modal = document.getElementById("searchErrorModal");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function () {
+    modal.style.display = "none";
+};
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function (event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+};
+// End of the modal
+
+
+// city search form
+var formSubmitHandler = function (event) {
+    event.preventDefault();
+
+    var citySearch = cityInputEl.value.trim();
+
+    if (citySearch) {
+        var locA = "https://api.openweathermap.org/data/2.5/weather?q=" + citySearch + "&APPID=159cf61f058039de880f7db60a1b8540&units=imperial";
+        testA(locA);
+        cityInputEl.value = "";
+    } else {
+        modal.style.display = "block";
+    }
+    console.log(event);
+};
+
+
 
 var testA = function (loc) {
 
@@ -51,9 +91,9 @@ var testB = function () {
 
     var lat = document.querySelector("#lat");
     var lon = document.querySelector("#lon");
-    
-    var loc = "https://api.openweathermap.org/data/2.5/onecall?lat=" + 
-    lat.textContent + "&lon=" + lon.textContent + "&appid=159cf61f058039de880f7db60a1b8540&units=imperial";
+
+    var loc = "https://api.openweathermap.org/data/2.5/onecall?lat=" +
+        lat.textContent + "&lon=" + lon.textContent + "&appid=159cf61f058039de880f7db60a1b8540&units=imperial";
 
     console.log(loc);
     // make a get request to url
@@ -64,6 +104,9 @@ var testB = function () {
                 //display data
                 debugger
                 console.log(data);
+
+
+
                 var t = document.querySelector("#txtWTestB");
 
                 var dt = unixToLocal(data.current.dt);
@@ -79,15 +122,38 @@ var testB = function () {
                     ;
 
                 debugger
-                var futureDays = getAllTagMatches(/^da/i);
+                // var futureDays = getAllTagMatches(/^da/i);
 
-                for (var i = 0; i < 5; i++) {                
-                        futureDays[i].textContent =
-                        unixToLocal(data.daily[i].dt) + "\r\n" +
-                        "Temp: " + data.daily[i].temp.day + "\r\n" +
-                        "Wind: " + data.daily[i].wind_speed + "\r\n" +
-                        "Humidity: " + data.daily[i].humidity
-                        ;
+                for (var i = 0; i < 5; i++) {
+
+
+                    let fiveDayEl = document.createElement("div");
+                    fiveDayEl.setAttribute("id", 'day' + i);
+                    fiveDayEl.classList.add("flex-container");
+
+                    let dateTxtEl = document.createElement("p");
+                    dateTxtEl.innerHTML = unixToLocal(data.daily[i].dt);
+                    fiveDayEl.appendChild(dateTxtEl);
+
+                    let imageEl = document.createElement("img");
+                    imageEl.setAttribute("src", "http://openweathermap.org/img/wn/"
+                        + data.daily[i].weather[0].icon + ".png");
+                    fiveDayEl.appendChild(imageEl);
+
+                    let tempTxtEl = document.createElement("p");
+                    tempTxtEl.innerHTML = "Temp: " + data.daily[i].temp.day;
+                    fiveDayEl.appendChild(tempTxtEl);
+
+                    let windTxtEl = document.createElement("p");
+                    windTxtEl.innerHTML = "Wind: " + data.daily[i].wind_speed;
+                    fiveDayEl.appendChild(windTxtEl);
+
+                    let humidityTxtEl = document.createElement("p");
+                    humidityTxtEl.innerHTML = "Humidity: " + data.daily[i].humidity;
+                    fiveDayEl.appendChild(humidityTxtEl);
+
+                    document.body.appendChild(fiveDayEl);
+
                 }
 
             });
@@ -112,5 +178,8 @@ function unixToLocal(stamp) {
     return ret;
 };
 
-var locA = "https://api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=159cf61f058039de880f7db60a1b8540&units=imperial";
-testA(locA);
+searchFormEl.addEventListener("submit", formSubmitHandler);
+
+
+// var locA = "https://api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=159cf61f058039de880f7db60a1b8540&units=imperial";
+// testA(locA);
