@@ -63,6 +63,7 @@ var btnSearch = function (event) {
     formSubmitHandler();
 };
 
+// create search buttons from local storage
 var createCityBtns = function () {
     for (var i = 0; i < citiesArry.length; i++) {
         let btn = document.createElement("button");
@@ -82,6 +83,7 @@ var removeCityBtns = function () {
     }
 };
 
+// search weather by city
 var getByCity = function (loc) {
 
     console.log(loc);
@@ -124,7 +126,7 @@ var getByCity = function (loc) {
 
 };
 
-
+// search by latitude and longitude
 var getByCoords = function () {
 
     var lat = document.querySelector("#lat");
@@ -146,12 +148,7 @@ var getByCoords = function () {
 
                 var dt = unixToLocal(data.current.dt);
 
-                t.innerHTML =
-                    // "Loc: " + data.timezone + " " + dt + "\r\n" +
-                
-                    // "Temp: " + data.current.temp + "\r\n" +
-                    // "Wind: " + data.current.wind_speed + " MPH" + "\r\n" +
-                    // "Humidity: " + data.current.humidity + "\r\n" +
+                t.innerHTML =  
                     "UV Index: " + data.current.uvi
                     ;
 
@@ -162,11 +159,7 @@ var getByCoords = function () {
                     matches[i].remove();
                 } 
 
-                for (var i = 0; i < 5; i++) {       
-
-                    // let fiveDayEl = document.createElement("div");
-                    // fiveDayEl.setAttribute("id", 'day');
-                    // fiveDayEl.classList.add("eachDay");
+                for (var i = 0; i < 5; i++) {
                      
                     let dateTxtEl = document.createElement("label");
                     dateTxtEl.classList.add("daily");
@@ -228,6 +221,7 @@ function unixToLocal(stamp) {
 var citiesArry = [];
 var citiesItem = {};
 
+// get city list from local storage
 var loadCities = function () {
     // debugger
     citiesArry = JSON.parse(localStorage.getItem("citiesList"));
@@ -258,6 +252,7 @@ var saveCities = function (city) {
     }
 };
 
+// update city list in local storage
 var pushCity = function (city) {
     console.log(city);
     citiesArry.push(city);
