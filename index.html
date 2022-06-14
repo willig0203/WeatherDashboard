@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <header>
+        <div>
+            <h1 class=""> Weather Dashboard</h1>           
+        </div>
+    </header>
+
+    <div class="">
+        <h3> Search For a City: (Le Sueur, US)</h3>
+        <form id="search-form">
+            <input name="city" id="city" type="text" autofocus="true" class="form-input" />
+            <button type="submit" class="submitBtn">Search</button>
+        </form>
+    </div>
+
+    <div class="flex-container" id="cityButtons">
+    </div>
+
+    <div class="flex-container" id="cityReport">
+    </div>
+
+    <div class="flex-container" id="coordReport">
+    </div>
+
+
+    <!-- The Modal -->
+    <div id="searchErrorModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Error: You must enter a valid city!</p>
+        </div>
+    </div>
+
+
+    <div class="flex-container" id="fiveDay">
+    </div>
+
+
+    <div>
+        <p class="hidden" id="lat"></p>
+    </div>
+    <div>
+        <p class="hidden" id="lon"></p>
+    </div>
+    <div>
+        <button onclick="getByCoords()">Display Five Day</button>
+    </div>
+
+
+
+
+    <script src="./assets/js/script.js"></script>
+</body>
+
+</html>
