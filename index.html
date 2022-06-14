@@ -12,27 +12,36 @@
 <body>
     <header>
         <div>
-            <h1 class=""> Weather Dashboard</h1>           
+            <h3 class="topBar">Weather Dashboard</h3>
         </div>
     </header>
 
-    <div class="">
-        <h3> Search For a City: (Le Sueur, US)</h3>
+    <div>
+        <h5> Search For a City: (Le Sueur, US)</h5>
+
         <form id="search-form">
-            <input name="city" id="city" type="text" autofocus="true" class="form-input" />
-            <button type="submit" class="submitBtn">Search</button>
+            <div class="searchForm">
+                <input name="city" id="city" type="text" autofocus="true" class="form-input" />
+                <button type="submit" class="submitBtn">Search</button>
+                <br>
+            </div>
         </form>
     </div>
 
-    <div class="flex-container" id="cityButtons">
-    </div>
+    <div class="row">
+        <div class="cityButtons" id="cityButtons">
+        </div>
 
-    <div class="flex-container" id="cityReport">
-    </div>
+        <div class="cityReport" id="cityReport">
+        </div>
 
-    <div class="flex-container" id="coordReport">
-    </div>
+        <div class="coordReport" id="coordReport">
+        </div>
 
+        <div class="fiveDay" id="fiveDay">
+
+        </div>
+    </div>
 
     <!-- The Modal -->
     <div id="searchErrorModal" class="modal">
@@ -44,11 +53,6 @@
     </div>
 
 
-    <div class="flex-container" id="cityButtons">
-    </div>
-
-    <div class="flex-container" id="fiveDay">
-    </div>
 
 
     <div>
