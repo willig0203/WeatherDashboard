@@ -50,6 +50,13 @@
   background-color: DodgerBlue;
 }
 
+.eachDayInfo {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  background-color: DodgerBlue;
+}
+
 .row {
   display: flex;
   flex-direction: column;
