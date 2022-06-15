@@ -11,39 +11,48 @@
 
 <body>
     <header>
-        <div>
-            <h3 class="topBar">Weather Dashboard</h3>
+        <div class="clsHeaderContainer">
+            <h3 class="clsHeaderItem">Weather Dashboard</h3>
         </div>
     </header>
 
-    <div>
-        <h5> Search For a City: (Le Sueur, US)</h5>
 
+<div class="clsTopRow">
+    <div class="clsSearchFormContainer">
+        <h5> Search For a City: (Le Sueur, US)</h5>
         <form id="search-form">
             <div class="searchForm">
                 <input name="city" id="city" type="text" autofocus="true" class="form-input" />
                 <button type="submit" class="submitBtn">Search</button>
-                <br>
             </div>
         </form>
     </div>
 
-    <div class="row">
+    <!-- <div class="mainReport"> -->
+        <div class="cityReport" id="cityReport">
+            <ul class="cityRepList" id="cityRepList">
+
+            </ul>
+        </div>
+    <!-- </div> -->
+
+</div>
+
+
+
+    <div class="cityButtons">
         <div class="cityButtons" id="cityButtons">
         </div>
+    </div>
 
-        <div class="cityReport" id="cityReport">
-        </div>
-
-        <div class="coordReport" id="coordReport">
-        </div>
+   
 
         <div class="fiveDay" id="fiveDay">
             <ul class="eachDayInfo" id="eachDayInfo">
 
             </ul>
         </div>
-    </div>
+ 
 
     <!-- The Modal -->
     <div id="searchErrorModal" class="modal">

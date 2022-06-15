@@ -96,25 +96,42 @@ var getByCity = function (loc) {
         if (response.ok) {
             response.json().then(function (data) {
                 //display data
-                // debugger
-                console.log(data);
-                var t = document.querySelector("#cityReport");
+                debugger
+                console.log(data);               
 
                 var lat = document.querySelector("#lat");
                 var lon = document.querySelector("#lon");
-
-                //parst the info of data
-                var dt = unixToLocal(data.dt);
-
-                t.innerHTML =
-                    data.name + " " + dt + "\r\n" +
-                    "Temp: " + data.main.temp + "\r\n" +
-                    "Wind: " + data.wind.speed + " MPH" + "\r\n" +
-                    "Humidity: " + data.main.humidity + "\r\n" 
-                    ;
-
                 lat.textContent = data.coord.lat;
                 lon.textContent = data.coord.lon;
+
+
+                var cityRepListEl = document.querySelector("#cityRepList");
+
+                let cityEl = document.createElement("li");
+                cityEl.classList.add("cityRepLi");
+                cityEl.setAttribute("id", 'curr');                    
+                cityEl.innerHTML = data.name + " " + unixToLocal(data.dt);
+                cityRepListEl.appendChild(cityEl);
+
+                let tempEl = document.createElement("li");
+                tempEl.classList.add("cityRepLi");
+                tempEl.setAttribute("id", 'curr');                    
+                tempEl.innerHTML = "Temp: " + data.main.temp;
+                cityRepListEl.appendChild(tempEl);
+
+                let windEl = document.createElement("li");
+                windEl.classList.add("cityRepLi");
+                windEl.setAttribute("id", 'curr');                    
+                windEl.innerHTML = "Wind: " + data.wind.speed + " MPH";
+                cityRepListEl.appendChild(windEl);
+
+                let HumidityEl = document.createElement("li");
+                HumidityEl.classList.add("cityRepLi");
+                HumidityEl.setAttribute("id", 'curr');                    
+                HumidityEl.innerHTML = "Humidity: " + data.main.humidity;
+                cityRepListEl.appendChild(HumidityEl);
+
+                document.body.appendChild(cityRepListEl);
 
                 getByCoords();
                 console.log(response);
@@ -149,16 +166,16 @@ var getByCoords = function () {
                 // debugger
                 console.log(data);
 
-                var t = document.querySelector("#coordReport");
+                var cityRepListEl = document.querySelector("#cityRepList");
 
-                var dt = unixToLocal(data.current.dt);
+                let uvIndxEl = document.createElement("li");
+                uvIndxEl.classList.add("cityRepLi");
+                uvIndxEl.setAttribute("id", 'curr');                    
+                uvIndxEl.innerHTML = "UV Index: " + data.current.uvi;
+                cityRepListEl.appendChild(uvIndxEl);
+                document.body.appendChild(cityRepListEl);
 
-                t.innerHTML =  
-                    "UV Index: " + data.current.uvi
-                    ;
 
-              
-// debugger
                 var matches = getAllTagMatches(/^day/i);
                 for (var i = 0; i < matches.length; i++) {
                     matches[i].remove();
