@@ -5,6 +5,7 @@ var cityInputEl = document.querySelector("#city");
 var cityBottonsEl = document.querySelector("#cityButtons");
 var cityReportEl = document.querySelector("#cityReport");
 var fiveDayEl = document.querySelector("#fiveDay");
+var eachDayEl = document.querySelector("#eachDayInfo");
 
 // Get the modal
 var modal = document.getElementById("searchErrorModal");
@@ -38,11 +39,11 @@ var formSubmitHandler = function (event) {
     if (citySearch) {
         var locA = "https://api.openweathermap.org/data/2.5/weather?q=" + citySearch + "&APPID=159cf61f058039de880f7db60a1b8540&units=imperial";
 
-        if (getByCity(locA)) {
-            saveCities(citySearch);
-            removeCityBtns();
-            createCityBtns();
-        }
+        getByCity(locA);
+        saveCities(citySearch);
+        removeCityBtns();
+        createCityBtns();
+        
         // else {
         //     modal.style.display = "block";
         // };
@@ -83,9 +84,10 @@ var removeCityBtns = function () {
     }
 };
 
+
 // search weather by city
 var getByCity = function (loc) {
-
+    cityResult = false;
     console.log(loc);
 
     // make a get request to url
@@ -113,15 +115,18 @@ var getByCity = function (loc) {
 
                 lat.textContent = data.coord.lat;
                 lon.textContent = data.coord.lon;
+
                 getByCoords();
-                return true;
+                console.log(response);
+  
             });
         } else {
             // if not successful, redirect to homepage
             // document.location.replace("./index.html");
             console.log("not Succ A");
-            return false;
+
         }
+    
     });
 
 };
@@ -161,46 +166,48 @@ var getByCoords = function () {
 
                 for (var i = 0; i < 5; i++) {
                      
-                    let dateTxtEl = document.createElement("label");
+                    let dateTxtEl = document.createElement("li");
                     dateTxtEl.classList.add("daily");
                     dateTxtEl.setAttribute("id", 'day');                    
                     dateTxtEl.innerHTML = unixToLocal(data.daily[i].dt);
-                    fiveDayEl.appendChild(dateTxtEl);
+                    eachDayEl.appendChild(dateTxtEl);
 
                     let imageEl = document.createElement("img");
                     imageEl.classList.add("daily");
                     imageEl.setAttribute("id", 'day');
                     imageEl.setAttribute("src", "http://openweathermap.org/img/wn/"
                         + data.daily[i].weather[0].icon + ".png");                
-                    fiveDayEl.appendChild(imageEl);
+                        eachDayEl.appendChild(imageEl);
 
-                    let tempTxtEl = document.createElement("label");
+                    let tempTxtEl = document.createElement("li");
                     tempTxtEl.classList.add("daily");
                     tempTxtEl.setAttribute("id", 'day');
                     tempTxtEl.innerHTML = " Temp: " + data.daily[i].temp.day;
-                    fiveDayEl.appendChild(tempTxtEl);
+                    eachDayEl.appendChild(tempTxtEl);
 
-                    let windTxtEl = document.createElement("label");
+                    let windTxtEl = document.createElement("li");
                     windTxtEl.classList.add("daily");   
                     windTxtEl.setAttribute("id", 'day');
                     windTxtEl.innerHTML = " Wind: " + data.daily[i].wind_speed;
-                    fiveDayEl.appendChild(windTxtEl);
+                    eachDayEl.appendChild(windTxtEl);
 
-                    let humidityTxtEl = document.createElement("label");
+                    let humidityTxtEl = document.createElement("li");
                     humidityTxtEl.classList.add("daily");
                     humidityTxtEl.setAttribute("id", 'day');
                     humidityTxtEl.innerHTML = " Humidity: " + data.daily[i].humidity;
-                    fiveDayEl.appendChild(humidityTxtEl);
+                    eachDayEl.appendChild(humidityTxtEl);
 
                     document.body.appendChild(fiveDayEl);
 
                 }
+                console.log(response);
 
             });
         } else {
             // if not successful, redirect to homepage
             // document.location.replace("./index.html");
             console.log("not successful B");
+
         }
     });
 };
