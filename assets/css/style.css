@@ -21,7 +21,7 @@
 .clsTopRow{
   display: flex;
   flex-direction: row;
-  justify-content: left;
+  justify-content: stretch;
 }
 
 .cityButtons {
@@ -46,6 +46,8 @@
 }
 
 
+
+
 .fiveDay {
   display: flex;
   flex-direction: row;
@@ -67,13 +69,13 @@
   background-color: DodgerBlue;
 }
 
-.row {
+/* .row {
   display: flex;
   flex-direction: column;
   /* justify-content: left; */
   background-color: #fefefe;
   border-style: inset;
-}
+} */
 
 
 .hidden{

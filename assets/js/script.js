@@ -131,7 +131,7 @@ var getByCity = function (loc) {
                 HumidityEl.innerHTML = "Humidity: " + data.main.humidity;
                 cityRepListEl.appendChild(HumidityEl);
 
-                document.body.appendChild(cityRepListEl);
+                cityReportEl.appendChild(cityRepListEl);
 
                 getByCoords();
                 console.log(response);
